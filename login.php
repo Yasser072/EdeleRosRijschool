@@ -19,24 +19,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inloggen</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Inloggen</h1>
-    <form method="post">
-        <label for="gebruikersnaam">Gebruikersnaam:</label>
-        <input type="text" id="gebruikersnaam" name="gebruikersnaam" required><br>
-        
-        <label for="wachtwoord">Wachtwoord:</label>
-        <input type="password" id="wachtwoord" name="wachtwoord" required><br>
-        
-        <input type="submit" value="Inloggen">
-    </form>
-    <?php if (isset($error)) echo "<p>$error</p>"; ?>
+    <div class="container">
+        <h1>Inloggen</h1>
+        <form>
+            <input type="text" id="username" name="username" placeholder="Gebruikersnaam" required>
+            <input type="password" id="password" name="password" placeholder="Wachtwoord" required>
+            <button type="submit">Inloggen</button>
+        </form>
+    </div>
 </body>
 </html>
