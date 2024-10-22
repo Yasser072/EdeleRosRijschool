@@ -1,0 +1,132 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: white;
+    background: url('img/paardbg.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh; /* Dit zorgt ervoor dat de container de volledige hoogte van de viewport heeft */
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 3em; /* Grootte van de hoofdtitel */
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+p {
+    font-size: 1.2em; /* Grotere tekst voor ondertitel */
+    margin: 0 0 20px;
+}
+
+.buttons {
+    margin: 20px 0;
+}
+
+.button {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 10px;
+    font-size: 1.2em;
+    transition: background 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.button:hover {
+    background: #218838;
+}
+
+.info {
+    background: rgba(255, 255, 255, 0.9); /* Lichte achtergrond met transparantie */
+    color: black;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 800px; /* Max breedte voor betere leesbaarheid */
+    text-align: left; /* Links uitgelijnd */
+    display: flex; /* Flexbox voor uitlijning */
+    flex-direction: column; /* Kolomrichting */
+    align-items: flex-start; /* Start van de flexbox */
+}
+
+.info h2 {
+    margin-top: 0; /* Geen bovenmarge voor de kop */
+}
+
+.info p {
+    line-height: 1.6; /* Betere leesbaarheid */
+}
+
+footer {
+    margin-top: 40px;
+    font-size: 0.9em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.modal {
+    display: none; /* Standaard niet zichtbaar */
+    position: fixed; /* Blijft op dezelfde plek */
+    z-index: 1000; /* Voor zorgen dat het boven andere elementen komt */
+    left: 0;
+    top: 0;
+    width: 100%; /* Breedte van het venster */
+    height: 100%; /* Hoogte van het venster */
+    overflow: auto; /* Zorgt ervoor dat je kan scrollen als het nodig is */
+    background-color: rgba(0, 0, 0, 0.8); /* Donkere achtergrond met meer transparantie */
+}
+
+.modal-content {
+    background-color: #fefefe; /* Lichte achtergrond voor de inhoud */
+    margin: 15% auto; /* Marges om het venster te centreren */
+    padding: 20px;
+    border: 2px solid #5a3e2b; /* Donkerbruine rand */
+    width: 80%; /* Breedte van het modale venster */
+    max-width: 600px; /* Max breedte */
+    border-radius: 10px; /* Hoekjes afronden */
+    color: #333; /* Donkergrijze tekstkleur voor betere leesbaarheid */
+    text-align: left; /* Links uitgelijnd voor de inhoud */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Schaduw voor diepte */
+}
+
+.close {
+    color: #5a3e2b; /* Donkerbruine kleur voor de sluitknop */
+    float: right; /* Sluitknop aan de rechterkant */
+    font-size: 28px; /* Groote van de sluitknop */
+    font-weight: bold; /* Maak het vet */
+}
+
+.close:hover,
+.close:focus {
+    color: #333; /* Verander kleur als je eroverheen hover */
+    text-decoration: none;
+    cursor: pointer; /* Maak het een pointer bij hover */
+}
+
+/* Voeg wat extra padding en marges toe */
+.modal-content h2 {
+    margin-top: 0; /* Geen marge boven de titel */
+    color: #5a3e2b; /* Donkerbruine kleur voor de titel */
+    font-family: 'Georgia', serif; /* Mooie serif font voor de titel */
+}
+
+.modal-content p {
+    line-height: 1.6; /* Meer ruimte tussen de regels voor betere leesbaarheid */
+    font-family: 'Arial', sans-serif; /* Een goed leesbaar sans-serif font voor de tekst */
+}
