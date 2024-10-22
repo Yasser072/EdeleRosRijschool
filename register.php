@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -6,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aanmelden</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
     <div class="container">
+    <a href="index.php" class="home-button"><i class="fas fa-home"></i> Home</a>
+
         <h1>Aanmelden</h1>
-        <form>
+        <form method="POST" action="register.php">
             <input type="text" id="username" name="username" placeholder="Gebruikersnaam" required>
-            <input type="email" id="email" name="email" placeholder="E-mailadres" required> <!-- E-mail veld toegevoegd -->
+            <input type="email" id="email" name="email" placeholder="E-mailadres" required>
             <input type="password" id="password" name="password" placeholder="Wachtwoord" required>
             <button type="submit">Aanmelden</button>
         </form>
@@ -31,29 +34,25 @@ $dbname = "EdeleRosRijschool"; // De naam van de database
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Controleer de verbinding
-if ($conn->connect_error) {
-    die("Verbinding mislukt: " . $conn->connect_error);
-}
-
-// Verwerken van de aanmelding
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // SQL-insert statement
-    $sql = "INSERT INTO gebruikers (username, email, password) VALUES (?, ?, ?)";
+    // Hash het wachtwoord en sla op in een variabele
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // SQL-insert statement, automatisch rol 'leerling' toekennen
+    $sql = "INSERT INTO gebruikers (username, email, password, role) VALUES (?, ?, ?, 'leerling')";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $username, $email, password_hash($password, PASSWORD_DEFAULT));
+    $stmt->bind_param("sss", $username, $email, $hashed_password); // Gebruik de variabele
 
     if ($stmt->execute()) {
-        echo "Aanmelding succesvol!";
+        echo "<p class='success-message'>Aanmelding succesvol!</p>";
     } else {
-        echo "Error: " . $stmt->error;
+        echo "<p class='error-message'>Error: " . $stmt->error . "</p>";
     }
+    
 
     $stmt->close();
 }
-
-$conn->close();
-?>
