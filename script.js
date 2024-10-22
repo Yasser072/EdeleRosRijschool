@@ -1,25 +1,21 @@
-// Vind het modale venster
-var modal = document.getElementById("infoModal");
+// Script voor het tonen van de informatiepop-up
+const infoButton = document.getElementById('info-button');
+const popup = document.getElementById('info-popup');
+const closeButton = document.querySelector('.close-button');
 
-// Vind de knop die het modale venster opent
-var btn = document.getElementById("infoButton");
+// Toon de pop-up wanneer de knop wordt geklikt
+infoButton.addEventListener('click', () => {
+    popup.style.display = 'block';
+});
 
-// Vind de <span> element dat het modale venster sluit
-var span = document.getElementsByClassName("close")[0];
+// Sluit de pop-up wanneer de sluitknop wordt geklikt
+closeButton.addEventListener('click', () => {
+    popup.style.display = 'none';
+});
 
-// Wanneer de gebruiker op de knop klikt, open het modale venster
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-
-// Wanneer de gebruiker op de <span> (sluit knop) klikt, sluit het modale venster
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// Wanneer de gebruiker ergens buiten het modale venster klikt, sluit het
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+// Sluit de pop-up wanneer er buiten de pop-up wordt geklikt
+window.addEventListener('click', (event) => {
+    if (event.target === popup) {
+        popup.style.display = 'none';
     }
-}
+});
