@@ -1,24 +1,29 @@
 <?php
-session_start();
+// Inclusie van de databaseverbinding
 include 'db.php';
 
+// Controleer of het formulier is verzonden
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $gebruikersnaam = $_POST['gebruikersnaam'];
-    $wachtwoord = $_POST['wachtwoord'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    $stmt = $pdo->prepare("SELECT * FROM klanten WHERE gebruikersnaam = ?");
-    $stmt->execute([$gebruikersnaam]);
-    $klant = $stmt->fetch();
+    // Bereid de SQL-query voor om de gebruiker te zoeken
+    $sql = "SELECT * FROM gebruikers WHERE username = ?";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([$username]);
 
-    if ($klant && password_verify($wachtwoord, $klant['wachtwoord'])) {
-        $_SESSION['klant_id'] = $klant['id'];
-        header("Location: dashboard.php");
-        exit;
+    // Haal de gebruiker op
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Controleer of de gebruiker bestaat en het wachtwoord correct is
+    if ($user && password_verify($password, $user['password'])) {
+        echo "Inloggen succesvol! Welkom, " . htmlspecialchars($username) . "!";
     } else {
-        $error = "Ongeldige gebruikersnaam of wachtwoord.";
+        echo "Ongeldige gebruikersnaam of wachtwoord.";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -30,9 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container">
         <h1>Inloggen</h1>
-        <form>
-            <input type="text" id="username" name="username" placeholder="Gebruikersnaam" required>
-            <input type="password" id="password" name="password" placeholder="Wachtwoord" required>
+        <form method="POST" action="login.php">
+            <input type="text" name="username" placeholder="Gebruikersnaam" required>
+            <input type="password" name="password" placeholder="Wachtwoord" required>
             <button type="submit">Inloggen</button>
         </form>
     </div>
