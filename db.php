@@ -1,20 +1,15 @@
 <?php
-$host = 'localhost';
-$db   = 'ederos_rijschool'; // Vervang dit door je database naam
-$user = 'root'; // Standaard gebruikersnaam voor XAMPP
-$pass = ''; // Standaard wachtwoord voor XAMPP is leeg
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
+$servername = "localhost";
+$username = "root";
+$password = ""; // Leeg wachtwoord voor XAMPP standaard root-gebruiker
+$dbname = "edelerosrijschool"; // De juiste naam van je database
 
 try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    $db = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Verbindingsfout: " . $e->getMessage();
+    exit();
 }
+
 ?>
