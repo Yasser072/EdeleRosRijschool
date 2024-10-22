@@ -1,132 +1,118 @@
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    color: white;
+    background: url('img/paardbg.jpg') no-repeat center center fixed; /* Aantrekkelijke achtergrondafbeelding */
+    background-size: cover; /* Zorg ervoor dat de achtergrond afbeelding de volledige pagina bedekt */
+    color: #333; /* Donkergrijze kleur voor de tekst */
+    font-family: Arial, sans-serif; /* Standaard lettertype */
+}
+
+h1, h2, h3, p {
+    color: #333; /* Zorg ervoor dat de koppen en paragrafen donkergrijs zijn */
+}
+
+/* Stijlen voor de landingspagina */
+.landing-page {
     background: url('img/paardbg.jpg') no-repeat center center fixed;
     background-size: cover;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    color: white;
     text-align: center;
-    height: 100vh; /* Dit zorgt ervoor dat de container de volledige hoogte van de viewport heeft */
-}
-
-header {
-    margin-bottom: 30px;
+    padding: 100px 20px;
 }
 
 h1 {
-    font-size: 3em; /* Grootte van de hoofdtitel */
-    margin: 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-size: 2.5em;
+    margin-bottom: 20px;
 }
 
-p {
-    font-size: 1.2em; /* Grotere tekst voor ondertitel */
-    margin: 0 0 20px;
-}
-
+/* Knoppen voor inloggen en aanmelden */
 .buttons {
-    margin: 20px 0;
+    margin-top: 20px;
 }
 
-.button {
-    display: inline-block;
-    background: #28a745;
+button {
+    background-color: #4CAF50;
     color: white;
-    padding: 15px 30px;
-    text-decoration: none;
-    border-radius: 5px;
+    padding: 15px;
     margin: 10px;
-    font-size: 1.2em;
-    transition: background 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+/* Specifieke styling voor de knoppen */
+button {
+    width: 150px; /* Standaard breedte voor knoppen */
+    padding: 10px;
+    margin: 10px auto; /* Centreren met automatische marges */
+    display: block; /* Zorg ervoor dat het een blok is */
+    background-color: #4CAF50; /* Groene achtergrondkleur */
+    color: white; /* Witte tekst */
+    border: none; /* Geen rand */
+    border-radius: 5px; /* Ronde hoeken voor de knop */
+    cursor: pointer; /* Verander de cursor naar pointer bij hover */
+    font-size: 16px; /* Maak de tekst iets groter */
 }
 
-.button:hover {
-    background: #218838;
+/* Hover-effect voor knoppen */
+button:hover {
+    background-color: #45a049;
 }
 
-.info {
-    background: rgba(255, 255, 255, 0.9); /* Lichte achtergrond met transparantie */
-    color: black;
-    padding: 20px;
-    margin: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 800px; /* Max breedte voor betere leesbaarheid */
-    text-align: left; /* Links uitgelijnd */
-    display: flex; /* Flexbox voor uitlijning */
-    flex-direction: column; /* Kolomrichting */
-    align-items: flex-start; /* Start van de flexbox */
-}
-
-.info h2 {
-    margin-top: 0; /* Geen bovenmarge voor de kop */
-}
-
-.info p {
-    line-height: 1.6; /* Betere leesbaarheid */
-}
-
-footer {
-    margin-top: 40px;
-    font-size: 0.9em;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-}
-
-.modal {
-    display: none; /* Standaard niet zichtbaar */
-    position: fixed; /* Blijft op dezelfde plek */
-    z-index: 1000; /* Voor zorgen dat het boven andere elementen komt */
+/* Stijlen voor pop-up */
+.popup {
+    display: none;
+    position: fixed;
     left: 0;
     top: 0;
-    width: 100%; /* Breedte van het venster */
-    height: 100%; /* Hoogte van het venster */
-    overflow: auto; /* Zorgt ervoor dat je kan scrollen als het nodig is */
-    background-color: rgba(0, 0, 0, 0.8); /* Donkere achtergrond met meer transparantie */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Donkerder achtergrond voor pop-up */
+    z-index: 1;
 }
 
-.modal-content {
-    background-color: #fefefe; /* Lichte achtergrond voor de inhoud */
-    margin: 15% auto; /* Marges om het venster te centreren */
+.popup-content {
+    background-color: rgba(255, 255, 255, 0.9); /* Licht witte achtergrond met een beetje transparantie */
+    color: #333; /* Donkergrijze kleur voor de tekst */
+    margin: 15% auto;
     padding: 20px;
-    border: 2px solid #5a3e2b; /* Donkerbruine rand */
-    width: 80%; /* Breedte van het modale venster */
-    max-width: 600px; /* Max breedte */
-    border-radius: 10px; /* Hoekjes afronden */
-    color: #333; /* Donkergrijze tekstkleur voor betere leesbaarheid */
-    text-align: left; /* Links uitgelijnd voor de inhoud */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Schaduw voor diepte */
+    border: 2px solid #4CAF50; /* Groene rand voor extra flair */
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Schaduw voor een diepte-effect */
 }
 
-.close {
-    color: #5a3e2b; /* Donkerbruine kleur voor de sluitknop */
-    float: right; /* Sluitknop aan de rechterkant */
-    font-size: 28px; /* Groote van de sluitknop */
-    font-weight: bold; /* Maak het vet */
+
+.close-button {
+    color: #4CAF50; /* Groene kleur voor de sluitknop */
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
-    color: #333; /* Verander kleur als je eroverheen hover */
+.close-button:hover,
+.close-button:focus {
+    color: darkred; /* Kleur bij hover */
     text-decoration: none;
-    cursor: pointer; /* Maak het een pointer bij hover */
+    cursor: pointer;
 }
 
-/* Voeg wat extra padding en marges toe */
-.modal-content h2 {
-    margin-top: 0; /* Geen marge boven de titel */
-    color: #5a3e2b; /* Donkerbruine kleur voor de titel */
-    font-family: 'Georgia', serif; /* Mooie serif font voor de titel */
+
+input[type="text"],input[type="email"], input[type="password"] {
+    width: 300px; /* Stel de breedte in op 300px */
+    padding: 10px; /* Voeg wat padding toe voor meer ruimte binnenin het veld */
+    margin: 10px auto; /* Centreren met automatische marges */
+    display: block; /* Zorg ervoor dat het invoerveld een blok is, zodat het niet naast andere elementen staat */
+    border: 1px solid #ccc; /* Lichte rand voor de invoervelden */
+    border-radius: 5px; /* Ronde hoeken voor de invoervelden */
+    font-size: 16px; /* Maak de tekst iets groter */
 }
 
-.modal-content p {
-    line-height: 1.6; /* Meer ruimte tussen de regels voor betere leesbaarheid */
-    font-family: 'Arial', sans-serif; /* Een goed leesbaar sans-serif font voor de tekst */
+
+
+.container {
+    width: 400px; /* Stel een maximale breedte in voor de container */
+    margin: 50px auto; /* Centraal plaatsen met automatische marges */
+    padding: 20px; /* Ruimte rond de inhoud */
+    background-color: rgba(255, 255, 255, 0.9); /* Achtergrondkleur voor de container */
+    border-radius: 10px; /* Ronde hoeken voor de container */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Schaduw voor diepte-effect */
 }
