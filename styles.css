@@ -155,3 +155,9 @@ input[type="text"],input[type="email"], input[type="password"] {
     background-color: #45a049;
 }
 
+.no-lessons-message {
+    text-align: center;
+    font-style: italic;
+    color: #ff3333; /* Rood om op te vallen */
+    background-color: #ffe6e6; /* Lichte achtergrond om op te vallen */
+}
