@@ -161,3 +161,77 @@ input[type="text"],input[type="email"], input[type="password"] {
     color: #ff3333; /* Rood om op te vallen */
     background-color: #ffe6e6; /* Lichte achtergrond om op te vallen */
 }
+
+.manage-lessons-button {
+    background-color: #4CAF50; /* Groene kleur */
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.manage-lessons-button:hover {
+    background-color: #45a049; /* Donkerder groen bij hover */
+}
+
+.manage-lessons button {
+    background-color: #4CAF50; /* Groene kleur */
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.manage-lessons button:hover {
+    background-color: #45a049;
+}
+
+.manage-lessons label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+.manage-lessons input[type="date"], .manage-lessons input[type="time"], .manage-lessons select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.manage-lessons .container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.manage-lessons h1 {
+    color: #333;
+    text-align: center;
+}
+
+.success-message {
+    background-color: #4CAF50; /* Groene kleur voor succes */
+    color: white;
+    padding: 10px;
+    margin: 20px 0;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 16px;
+    display: none;
+}
