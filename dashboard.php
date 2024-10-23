@@ -50,7 +50,7 @@ $gebruiker = $stmt->fetch(PDO::FETCH_ASSOC);
                 <tbody>
                 <?php
 // Haal geplande lessen op
-$sql = "SELECT * FROM lessen WHERE gebruiker_id = ?";
+$sql = "SELECT * FROM lessen WHERE instructeur_id = ?";
 $stmt = $db->prepare($sql);
 $stmt->execute([$user_id]);
 
@@ -66,6 +66,7 @@ if ($stmt->rowCount() > 0) {
                 </tbody>
             </table>
         </section>
+        <a href="manage_lessons.php" class="manage-lessons-button">Lessen Beheren</a>
 
         <a href="index.php" class="home-button"><i class="fas fa-home"></i> Home</a>
     </div>
