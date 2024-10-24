@@ -1,58 +1,37 @@
 <?php
 session_start();
-include 'db.php'; // Verbind met de database
+include 'db.php';
 
-// Controleer of de instructeur is ingelogd
-if (!isset($_SESSION['username'])) {
-    echo "Geen instructeur ingelogd.";
+// Controleer of de instructeur is ingelogd en of die instructeur een docent is
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'docent') {
+    echo "Toegang geweigerd. Alleen docenten kunnen lessen beheren.";
     exit();
 }
 
-$successMessage = ''; // Variabele om de succesmelding op te slaan
+// Verwijder les
+if (isset($_POST['delete_id'])) {
+    $deleteId = $_POST['delete_id'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $datum = $_POST['datum'];
-    $tijd = $_POST['tijd'];
-    $leerlingen = $_POST['leerlingen'] ?? []; // Geselecteerde leerlingen
-
-    // Haal het instructeur_id op op basis van de sessie-username
-    $sql = "SELECT id FROM gebruikers WHERE username = ?";
+    // Eerst de koppelingen met leerlingen verwijderen
+    $sql = "DELETE FROM les_leerlingen WHERE les_id = ?";
     $stmt = $db->prepare($sql);
-    $stmt->execute([$_SESSION['username']]);
-    $instructeur = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->execute([$deleteId]);
 
-    if (!$instructeur) {
-        echo "Instructeur niet gevonden.";
-        exit(); // Stop als de instructeur niet wordt gevonden
-    }
-
-    // Les toevoegen met het instructeur_id
-    $sql = "INSERT INTO lessen (datum, tijd, instructeur_id) VALUES (?, ?, ?)";
+    // Nu de les zelf verwijderen
+    $sql = "DELETE FROM lessen WHERE id = ?";
     $stmt = $db->prepare($sql);
-    $stmt->execute([$datum, $tijd, $instructeur['id']]);
-    
-    // Haal het ID van de zojuist toegevoegde les
-    $les_id = $db->lastInsertId();
-
-    // Leerlingen koppelen aan de les
-    foreach ($leerlingen as $leerling_id) {
-        // Haal de naam van de leerling op
-        $sql = "SELECT username FROM gebruikers WHERE id = ?";
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$leerling_id]);
-        $leerling = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Koppel de leerling aan de les
-        $sql = "INSERT INTO les_leerlingen (les_id, leerling_id) VALUES (?, ?)";
-        $stmt = $db->prepare($sql);
-        if ($stmt->execute([$les_id, $leerling_id])) {
-            // Voeg de naam van de leerling toe aan de succesmelding
-            $successMessage .= 'Leerling ' . htmlspecialchars($leerling['username']) . ' succesvol gekoppeld.<br>';
-        } else {
-            $successMessage .= 'Fout bij het koppelen van leerling ' . htmlspecialchars($leerling['username']) . '.<br>';
-        }
+    if ($stmt->execute([$deleteId])) {
+        $successMessage = "Les succesvol verwijderd.";
+    } else {
+        $errorMessage = "Fout bij het verwijderen van de les.";
     }
 }
+
+// Lessen ophalen
+$sql = "SELECT * FROM lessen WHERE instructeur_id = (SELECT id FROM gebruikers WHERE username = ?)";
+$stmt = $db->prepare($sql);
+$stmt->execute([$_SESSION['username']]);
+$lessen = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -60,45 +39,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Les Aanmaken/Bewerken</title>
+    <title>Les Beheer</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container manage-lessons">
-        <h1>Les Aanmaken of Bewerken</h1>
+        <h1>Beheer Lessen</h1>
 
-        <div class="success-message" id="successMessage" style="display: <?= $successMessage ? 'block' : 'none'; ?>;">
-            <?= $successMessage ?>
-        </div>
+        <?php if (isset($successMessage)): ?>
+            <div class="success-message"><?= $successMessage ?></div>
+        <?php endif; ?>
+        
+        <?php if (isset($errorMessage)): ?>
+            <div class="error-message"><?= $errorMessage ?></div>
+        <?php endif; ?>
 
-        <form method="POST" action="manage_lessons.php">
-            <label for="datum">Datum:</label>
-            <input type="date" id="datum" name="datum" required>
-            
-            <label for="tijd">Tijd:</label>
-            <input type="time" id="tijd" name="tijd" required>
-            
-            <label for="instructeur">Instructeur:</label>
-            <input type="text" id="instructeur" name="instructeur" required value="<?php echo $_SESSION['username']; ?>" readonly>
-            
-            <label for="leerlingen">Voeg Leerlingen Toe:</label>
-            <select id="leerlingen" name="leerlingen[]" multiple>
-                <!-- Dynamisch ingevulde opties met leerlingen uit de database -->
-                <?php
-                // Haal alle leerlingen op uit de database
-                $sql = "SELECT * FROM gebruikers WHERE role = 'leerling'";
-                $stmt = $db->prepare($sql);
-                $stmt->execute();
-                while ($leerling = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<option value='" . $leerling['id'] . "'>" . htmlspecialchars($leerling['username']) . "</option>";
-                }
-                ?>
-            </select>
+        <table>
+            <thead>
+                <tr>
+                    <th>Titel</th>
+                    <th>Datum</th>
+                    <th>Tijd</th>
+                    <th>Acties</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($lessen): ?>
+                    <?php foreach ($lessen as $les): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($les['titel']) ?></td>
+                            <td><?= htmlspecialchars($les['datum']) ?></td>
+                            <td><?= htmlspecialchars($les['tijd']) ?></td>
+                            <td>
+                                <a href="edit_lesson.php?id=<?= $les['id'] ?>" class="edit-button">Bewerken</a>
+                                <form method="POST" action="manage_lessons.php" style="display:inline;">
+                                <input type="hidden" name="delete_id" value="<?= $les['id'] ?>">
+                                 <button type="submit" class="delete-button">Verwijderen</button>
+                            </form>
 
-            <button type="submit">Les Opslaan</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4">Geen lessen gevonden.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
 
-            <a href="dashboard.php" class="home-button"><i class="fas fa-home"></i> Terug</a>
-        </form>
+        <a href="make_lesson.php" class="manage-lessons-button">Nieuwe Les Aanmaken</a>   
+        <a href="dashboard.php" class="manage-lessons-button">Dashboard</a>
     </div>
 </body>
 </html>
