@@ -44,31 +44,39 @@ $gebruiker = $stmt->fetch(PDO::FETCH_ASSOC);
                     <tr>
                         <th>Datum</th>
                         <th>Tijd</th>
-                        <th>Instructeur</th>
+                        <th>Titel</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
-// Haal geplande lessen op
-$sql = "SELECT * FROM lessen WHERE instructeur_id = ?";
-$stmt = $db->prepare($sql);
-$stmt->execute([$user_id]);
+                // Haal geplande lessen op
+                $sql = "SELECT * FROM lessen WHERE instructeur_id = ?"; // Dit moet worden aangepast als je lessen wilt ophalen voor leerlingen
+                $stmt = $db->prepare($sql);
+                $stmt->execute([$user_id]);
 
-if ($stmt->rowCount() > 0) {
-    while ($les = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo "<tr><td>" . htmlspecialchars($les['datum']) . "</td><td>" . htmlspecialchars($les['tijd']) . "</td><td>" . htmlspecialchars($les['instructeur']) . "</td></tr>";
-    }
-} else {
-    echo "<tr><td colspan='3' class='no-lessons-message'>Er zijn momenteel geen lessen gepland.</td></tr>";
-}
-?>
-
+                if ($stmt->rowCount() > 0) {
+                    while ($les = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<tr><td>" . htmlspecialchars($les['datum']) . "</td><td>" . htmlspecialchars($les['tijd']) . "</td><td>" . htmlspecialchars($les['titel']) . "</td></tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='3' class='no-lessons-message'>Er zijn momenteel geen lessen gepland.</td></tr>";
+                }
+                ?>
                 </tbody>
             </table>
         </section>
-        <a href="manage_lessons.php" class="manage-lessons-button">Lessen Beheren</a>
 
-        <a href="index.php" class="home-button"><i class="fas fa-home"></i> Home</a>
+        <?php if ($gebruiker['role'] === 'docent'): // Alleen docenten kunnen lessen aanmaken en beheren ?>
+            <a href="make_lesson.php" class="manage-lessons-button">Les aanmaken</a>
+            <a href="manage_lessons.php" class="manage-lessons-button">Lessen overzicht</a>
+        <?php endif; ?>
+
+        <a href="index.php" class="home-button"><i class="fas fa-home"></i>Uitloggen</a>
+
+        <?php if ($gebruiker['role'] === 'leerling'): // Alleen leerlingen kunnen les overzicht leerling zien ?>
+        <a href="view_lessons.php" class="manage-lessons-button">Les overzicht leerling</a>
+        <?php endif; ?>
+
     </div>
 </body>
 </html>
