@@ -1,25 +1,30 @@
 <?php
-// Inclusie van de databaseverbinding
-include 'db.php';
+session_start(); // Start de sessie
+include 'db.php'; // Verbind met de database
 
-// Controleer of het formulier is verzonden
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Bereid de SQL-query voor om de gebruiker te zoeken
+    // Zoek de gebruiker in de database
     $sql = "SELECT * FROM gebruikers WHERE username = ?";
     $stmt = $db->prepare($sql);
     $stmt->execute([$username]);
 
-    // Haal de gebruiker op
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Controleer of de gebruiker bestaat en het wachtwoord correct is
+    // Controleer of de gebruiker bestaat en of het wachtwoord klopt
     if ($user && password_verify($password, $user['password'])) {
-        echo "Inloggen succesvol! Welkom, " . htmlspecialchars($username) . "!";
+        // Sla de gebruikersinformatie op in de sessie
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
+
+        // Stuur door naar het dashboard
+        header('Location: dashboard.php');
+        exit();
     } else {
-        echo "Ongeldige gebruikersnaam of wachtwoord.";
+        echo "<p class='error-message'>Ongeldige gebruikersnaam of wachtwoord.</p>";
     }
 }
 ?>
