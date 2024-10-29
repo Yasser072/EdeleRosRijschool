@@ -8,36 +8,38 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'docent') {
     exit();
 }
 
-// Lesgegevens ophalen
+// Haal de les op die bewerkt moet worden
 if (isset($_GET['id'])) {
-    $les_id = $_GET['id'];
-
-    // Haal de les op basis van het ID
+    $lessonId = $_GET['id'];
     $sql = "SELECT * FROM lessen WHERE id = ?";
     $stmt = $db->prepare($sql);
-    $stmt->execute([$les_id]);
-    $les = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$les) {
+    $stmt->execute([$lessonId]);
+    $lesson = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if (!$lesson) {
         echo "Les niet gevonden.";
         exit();
     }
+} else {
+    echo "Geen les ID opgegeven.";
+    exit();
 }
 
-// Bijwerken van de les
+// Update les
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $datum = $_POST['datum'];
     $tijd = $_POST['tijd'];
     $titel = $_POST['titel'];
     $omschrijving = $_POST['omschrijving'];
 
-    // Update de les in de database
-    $sql = "UPDATE lessen SET datum = ?, tijd = ?, titel = ?, omschrijving = ? WHERE id = ?";
-    $stmt = $db->prepare($sql);
-    $stmt->execute([$datum, $tijd, $titel, $omschrijving, $les_id]);
-
-    header("Location: manage_lessons.php"); // Redirect na bijwerken
-    exit();
+    $updateSql = "UPDATE lessen SET datum = ?, tijd = ?, titel = ?, omschrijving = ? WHERE id = ?";
+    $updateStmt = $db->prepare($updateSql);
+    
+    if ($updateStmt->execute([$datum, $tijd, $titel, $omschrijving, $lessonId])) {
+        $successMessage = "Les succesvol bijgewerkt!";
+    } else {
+        $errorMessage = "Fout bij het bijwerken van de les.";
+    }
 }
 ?>
 
@@ -50,23 +52,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <div class="edit-lesson-container">
         <h1>Les Bewerken</h1>
-        <form method="POST" action="edit_lesson.php?id=<?= $les_id ?>">
-            <label for="datum">Datum:</label>
-            <input type="date" id="datum" name="datum" value="<?= htmlspecialchars($les['datum']) ?>" required>
 
-            <label for="tijd">Tijd:</label>
-            <input type="time" id="tijd" name="tijd" value="<?= htmlspecialchars($les['tijd']) ?>" required>
+        <?php if (!empty($successMessage)): ?>
+            <p class="success-message"><?= htmlspecialchars($successMessage) ?></p>
+        <?php endif; ?>
+        <?php if (!empty($errorMessage)): ?>
+            <p class="error-message"><?= htmlspecialchars($errorMessage) ?></p>
+        <?php endif; ?>
 
-            <label for="titel">Titel van de Les:</label>
-            <input type="text" id="titel" name="titel" value="<?= htmlspecialchars($les['titel']) ?>" required>
-
-            <label for="omschrijving">Omschrijving van de Les:</label>
-            <textarea id="omschrijving" name="omschrijving" rows="4" required><?= htmlspecialchars($les['omschrijving']) ?></textarea>
-
+        <form method="POST" action="edit_lesson.php?id=<?= $lessonId ?>">
+            <input type="date" name="datum" value="<?= htmlspecialchars($lesson['datum']) ?>" required>
+            <input type="time" name="tijd" value="<?= htmlspecialchars($lesson['tijd']) ?>" required>
+            <input type="text" name="titel" placeholder="Titel van de Les" value="<?= htmlspecialchars($lesson['titel']) ?>" required>
+            <textarea name="omschrijving" rows="4" placeholder="Omschrijving van de Les" required><?= htmlspecialchars($lesson['omschrijving']) ?></textarea>
             <button type="submit">Bijwerken</button>
-            <a href="manage_lessons.php" class="home-button"><i class="fas fa-home"></i> Terug</a>
+            <a href="dashboard.php" class="home-button"><i class="fas fa-home"></i> Terug naar Dashboard</a>
         </form>
     </div>
 </body>
