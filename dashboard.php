@@ -118,6 +118,10 @@ $gebruiker = $stmt->fetch(PDO::FETCH_ASSOC);
         <?php if ($gebruiker['role'] === 'leerling' || $gebruiker['role'] === 'docent'): ?>
             <a href="ziekmelden.php" class="manage-lessons-button">Ziekmelden</a>
         <?php endif; ?>
+
+        <?php if ($gebruiker['role'] === 'docent'): // Alleen docenten kunnen ziekmeldingen beheren ?>
+        <a href="ziekmeldingen_overzicht.php" class="manage-lessons-button">Bekijk Ziekmeldingen</a>
+        <?php endif; ?>
     </div>
 </body>
 </html>
