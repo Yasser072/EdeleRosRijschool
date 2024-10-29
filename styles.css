@@ -179,51 +179,106 @@ input[type="text"],input[type="email"], input[type="password"] {
     background-color: #45a049; /* Donkerder groen bij hover */
 }
 
-.manage-lessons button {
-    background-color: #4CAF50; /* Groene kleur */
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.manage-lessons {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff; /* Wit voor een frisse uitstraling */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.manage-lessons button:hover {
-    background-color: #45a049;
+.manage-lessons h1 {
+    color: #333;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 20px;
 }
 
 .manage-lessons label {
     font-weight: bold;
     margin-top: 10px;
     display: block;
+    color: #555; /* Donkergrijze kleur voor labels */
 }
 
-.manage-lessons input[type="date"], .manage-lessons input[type="time"], .manage-lessons select {
+.manage-lessons input[type="text"],
+.manage-lessons input[type="date"],
+.manage-lessons input[type="time"],
+.manage-lessons textarea,
+.manage-lessons select {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin: 5px 0 20px;
-    border-radius: 4px;
+    border-radius: 5px;
     border: 1px solid #ccc;
+    transition: border 0.3s;
 }
 
-.manage-lessons .container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.manage-lessons input[type="text"],
+.manage-lessons input[type="date"],
+.manage-lessons input[type="time"],
+.manage-lessons textarea,
+.manage-lessons select {
+    width: calc(100% - 24px); /* Vermindert de breedte om padding te compenseren */
+    padding: 12px;
+    margin: 5px 0 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: border 0.3s;
 }
 
-.manage-lessons h1 {
-    color: #333;
+.manage-lessons {
+    padding: 20px; /* Zorg ervoor dat de padding in de container voldoende is */
+    box-sizing: border-box; /* Zorg ervoor dat padding en margin goed werken met de breedte */
+}
+
+.manage-lessons button {
+    background-color: #4CAF50; /* Groene kleur */
+    color: white;
+    padding: 12px 20px;
     text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Volledige breedte */
+    margin-top: 10px;
 }
+
+.manage-lessons button:hover {
+    background-color: #45a049; /* Donkerder groen bij hover */
+}
+
+.manage-lessons .success-message {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    margin: 20px 0;
+    text-align: center;
+    border-radius: 5px;
+    display: none; /* Standaard verborgen, wordt zichtbaar bij succes */
+}
+
+.manage-lessons .home-button {
+    background-color: #4CAF50; /* Groene kleur */
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    width: 97%; /* Volledige breedte */
+    margin-top: 10px;
+}
+
+.manage-lessons .home-button:hover {
+    background-color: #45a049; /* Donkerder blauw bij hover */
+}
+
 
 .success-message {
     background-color: #4CAF50; /* Groene kleur voor succes */
@@ -235,3 +290,502 @@ input[type="text"],input[type="email"], input[type="password"] {
     font-size: 16px;
     display: none;
 }
+.manage-lessons select {
+    height: auto; /* Zorgt ervoor dat de hoogte aanpast aan de inhoud */
+}
+
+
+
+.leerlingen-lijst {
+    margin-top: 10px;
+}
+
+.checkbox-item {
+    margin-bottom: 5px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+
+.leerlingen-lijst {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    max-height: 300px; /* Beperkt de hoogte van de lijst */
+    overflow-y: auto; /* Maakt de lijst scrollbaar als deze te lang wordt */
+}
+
+.checkbox-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.checkbox-item:hover {
+    background-color: #f0f0f0;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); /* Vergroot de checkbox voor betere zichtbaarheid */
+}
+
+.checkbox-item label {
+    font-weight: bold;
+    color: #333;
+}
+
+
+.manage-lessons {
+    width: 90%; /* Breedte van de container aanpassen */
+    max-width: 1200px; /* Maximale breedte instellen voor grotere schermen */
+    margin: 20px auto; /* Voeg wat marge boven en onder toe */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.manage-lessons h1 {
+    color: #4CAF50;
+    text-align: center;
+}
+
+.manage-lessons table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.manage-lessons th, .manage-lessons td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.manage-lessons th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.manage-lessons tr:hover {
+    background-color: #f1f1f1; /* Hover effect */
+}
+
+.manage-lessons .edit-button {
+    background-color: #046dff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.manage-lessons .delete-button {
+    background-color: #e00000;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.manage-lessons .edit-button:hover {
+    background-color: #47a6ff;
+}
+
+.manage-lessons .delete-button:hover {
+    background-color: #ed4d4d;
+}
+
+.manage-lessons .success-message, .manage-lessons .error-message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.manage-lessons .success-message {
+    background-color: #e6ffe6;
+    color: #4CAF50;
+}
+
+.manage-lessons .error-message {
+    background-color: #ffe6e6;
+    color: #ff3333;
+}
+
+
+.view-lessons .container {
+    max-width: 800px; /* Breder maken */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.view-lessons h1 {
+    color: #4CAF50;
+    text-align: center;
+}
+
+.view-lessons table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.view-lessons th, .view-lessons td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.view-lessons th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.view-lessons tr {
+    background-color: white; /* Zet de achtergrond van elke rij naar wit */
+}
+
+.view-lessons tr:hover {
+    background-color: #f1f1f1; /* Hover effect blijft actief */
+}
+
+.view-lessons .home-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Groene kleur */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.view-lessons .home-button:hover {
+    background-color: #45a049; /* Donkerder groen bij hover */
+}
+
+.success-message {
+    color: #4CAF50; /* Groen voor succes */
+    background-color: #e6ffe6; /* Lichte achtergrond */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.error-message {
+    color: #ff3333; /* Rood voor fouten */
+    background-color: #ffe6e6; /* Lichte achtergrond */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.success-message {
+    color: #4CAF50; /* Groen voor succes */
+    background-color: #e6ffe6; /* Lichte achtergrond */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.error-message {
+    color: #ff3333; /* Rood voor fouten */
+    background-color: #ffe6e6; /* Lichte achtergrond */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* Specifieke stijlen voor de admin dashboard knoppen */
+.admin-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #4CAF50; /* Groene kleur */
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 10px 0; /* Ruimte tussen knoppen */
+    transition: background-color 0.3s ease;
+}
+
+.admin-button:hover {
+    background-color: #45a049; /* Donkerder groen bij hover */
+}
+
+.manage-students {
+    width: 90%; /* Breder maken voor de container */
+    max-width: 1200px; /* Maximale breedte instellen */
+    margin: 20px auto; /* Centraal uitlijnen */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.manage-students h1 {
+    color: #4CAF50; /* Groene kleur voor titels */
+}
+
+.add-student-title {
+    background-color: #4CAF50; /* Groene achtergrondkleur */
+    color: rgb(255, 255, 255); /* Witte tekstkleur */
+    padding: 10px; /* Padding rondom de tekst */
+    border-radius: 5px; /* Ronde hoeken */
+    margin-bottom: 10px; /* Ruimte onder de titel */
+}
+
+.add-student-form {
+    background-color: #e6ffe6; /* Lichtere achtergrond voor het formulier */
+    padding: 15px; /* Padding rondom het formulier */
+    border-radius: 5px; /* Ronde hoeken */
+}
+
+.manage-students {
+    width: 90%; /* Breedte van de container aanpassen */
+    max-width: 1200px; /* Maximale breedte instellen voor grotere schermen */
+    margin: 20px auto; /* Voeg wat marge boven en onder toe */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.manage-students h1 {
+    color: #4CAF50;
+    text-align: center;
+}
+
+.manage-students .add-student-section {
+    background-color: #e6ffe6; /* Groene achtergrond voor de sectie */
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.manage-students input[type="text"],
+.manage-students input[type="email"],
+.manage-students input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.manage-students button {
+    background-color: #4CAF50; /* Groene kleur voor de toevoegen knop */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.manage-students button.delete-button {
+    background-color: #dc3545; /* Rode kleur voor de verwijder knop */
+}
+
+.manage-students button:hover {
+    background-color: #45a049; /* Donkerder groen bij hover */
+}
+
+.manage-students button.delete-button:hover {
+    background-color: #c82333; /* Donkerder rood bij hover */
+}
+
+.manage-students table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.manage-students th, .manage-students td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.manage-students th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.manage-students tr:hover {
+    background-color: #f1f1f1; /* Hover effect */
+}
+
+.success-message {
+    color: #4CAF50; /* Groen voor succes */
+    background-color: #e6ffe6; /* Lichte achtergrond */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.error-message {
+    color: #ff3333; /* Rood voor fouten */
+    background-color: #ffe6e6; /* Lichte achtergrond */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.success-message {
+    color: #4CAF50; /* Groen voor succes */
+    background-color: #e6ffe6; /* Lichte achtergrond */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.error-message {
+    color: #ff3333; /* Rood voor fouten */
+    background-color: #ffe6e6; /* Lichte achtergrond */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+
+.ziekmelden {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.ziekmelden label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+.ziekmelden input[type="text"],
+.ziekmelden input[type="email"],
+.ziekmelden input[type="date"],
+.ziekmelden textarea {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.ziekmelden button {
+    background-color: #4CAF50; /* Groene kleur */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ziekmelden button:hover {
+    background-color: #45a049; /* Donkerder groen bij hover */
+}
+
+
+  /* Specifieke styling voor de edit_lesson pagina */
+  .edit-lesson-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.edit-lesson-container h1 {
+    text-align: center;
+    color: #4CAF50;
+}
+
+.edit-lesson-container input[type="text"],
+.edit-lesson-container input[type="date"],
+.edit-lesson-container input[type="time"],
+.edit-lesson-container textarea {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.edit-lesson-container button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+.edit-lesson-container button:hover {
+    background-color: #45a049;
+}
+
+.notification {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    position: relative; /* Nodig voor de positionering van het kruisje */
+}
+
+.close-notification {
+    position: absolute; /* Hiermee positioneren we het kruisje */
+    top: 5px; /* Afstand van de bovenkant */
+    right: 5px; /* Afstand van de rechterkant */
+    background: none; /* Geen achtergrond */
+    border: none; /* Geen rand */
+    color: #ff0000; /* Rood voor het kruisje */
+    cursor: pointer; /* Verander de cursor naar pointer bij hover */
+    font-size: 16px; /* Grootte van het kruisje */
+}
+
+.close-button {
+    background: none; /* Geen achtergrondkleur */
+    border: none; /* Geen rand */
+    color: #dc3545; /* Rood voor het kruisje */
+    font-size: 18px; /* Grootte van het kruisje */
+    cursor: pointer; /* Wijzig de cursor naar pointer */
+}
+
+.close-button:hover {
+    color: #b02a2a; /* Donkerder rood bij hover */
+}
+
+.notification:hover .close-button {
+    background: none; /* Zorg ervoor dat er geen achtergrondkleur is */
+}
+
