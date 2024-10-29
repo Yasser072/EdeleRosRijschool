@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Voeg een notificatie toe voor de docent
             $notifySql = "INSERT INTO notificaties (user_id, message) VALUES (?, ?)";
             $notifyStmt = $db->prepare($notifySql);
-            $notifyStmt->execute([$docent['id'], "Leerling " . htmlspecialchars($gebruiker['username']) . " heeft zich ziek gemeld op $datum."]);
+            $notifyStmt->execute([$docent['id'], "" . htmlspecialchars($gebruiker['username']) . " heeft zich ziek gemeld op $datum."]);
         }
     } else {
         $errorMessage = "Er is een fout opgetreden bij het indienen van de ziekmelding.";
