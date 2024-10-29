@@ -9,13 +9,14 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'docent') {
 }
 
 $successMessage = ''; // Variabele om de succesmelding op te slaan
+$errorMessage = ''; // Variabele om foutmeldingen op te slaan
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $datum = $_POST['datum'];
     $tijd = $_POST['tijd'];
-    $titel = $_POST['titel'] ?? ''; // Gebruik een default waarde
-    $omschrijving = $_POST['omschrijving'] ?? ''; // Gebruik een default waarde
-    $leerlingen = $_POST['leerlingen'] ?? []; // Geselecteerde leerlingen
+    $titel = $_POST['titel'] ?? '';
+    $omschrijving = $_POST['omschrijving'] ?? '';
+    $leerlingen = $_POST['leerlingen'] ?? [];
 
     // Haal het instructeur_id op
     $sql = "SELECT id FROM gebruikers WHERE username = ?";
@@ -42,6 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO les_leerlingen (les_id, leerling_id) VALUES (?, ?)";
         $stmt = $db->prepare($sql);
         if ($stmt->execute([$les_id, $leerling_id])) {
+            // Notificatie voor de leerling dat er een nieuwe les is toegevoegd
+            $notifySql = "INSERT INTO notificaties (user_id, message) VALUES (?, ?)";
+            $notifyStmt = $db->prepare($notifySql);
+            $notifyStmt->execute([$leerling_id, "Nieuwe les toegevoegd: $titel."]);
+
             // Haal de naam van de leerling op voor de succesmelding
             $sql = "SELECT username FROM gebruikers WHERE id = ?";
             $stmt = $db->prepare($sql);
@@ -49,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $leerling = $stmt->fetch(PDO::FETCH_ASSOC);
             $successMessage .= 'Leerling ' . htmlspecialchars($leerling['username']) . ' succesvol gekoppeld.<br>';
         } else {
-            $successMessage .= 'Fout bij het koppelen van leerling met ID ' . htmlspecialchars($leerling_id) . '.<br>';
+            $errorMessage .= 'Fout bij het koppelen van leerling met ID ' . htmlspecialchars($leerling_id) . '.<br>';
         }
     }
 }
@@ -67,9 +73,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container manage-lessons">
         <h1>Les Aanmaken</h1>
 
-        <div class="success-message" id="successMessage" style="display: <?= $successMessage ? 'block' : 'none'; ?>;">
-            <?= $successMessage ?>
-        </div>
+        <?php if (!empty($successMessage)): ?>
+            <div class="success-message">
+                <?= $successMessage ?>
+            </div>
+        <?php endif; ?>
+        
+        <?php if (!empty($errorMessage)): ?>
+            <div class="error-message">
+                <?= $errorMessage ?>
+            </div>
+        <?php endif; ?>
 
         <form method="POST" action="make_lesson.php">
             <label for="datum">Datum:</label>
