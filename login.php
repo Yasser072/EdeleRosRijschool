@@ -2,6 +2,12 @@
 session_start(); // Start de sessie
 include 'db.php'; // Verbind met de database
 
+// Check if there is a success message in the URL
+$registerSuccessMessage = '';
+if (isset($_GET['register_success'])) {
+    $registerSuccessMessage = "Je account is aangemaakt! Je kunt nu inloggen.";
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -20,8 +26,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
 
-        // Stuur door naar het dashboard
-        header('Location: dashboard.php');
+        // Stuur door naar het juiste dashboard op basis van de rol
+        if ($user['role'] === 'admin') {
+            header('Location: admin_dashboard.php');
+        } else {
+            header('Location: dashboard.php');
+        }
         exit();
     } else {
         echo "<p class='error-message'>Ongeldige gebruikersnaam of wachtwoord.</p>";
@@ -37,12 +47,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Inloggen</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 </head>
 <body>
     <div class="container">
-    <a href="index.php" class="home-button"><i class="fas fa-home"></i> Home</a>
+        <a href="index.php" class="home-button"><i class="fas fa-home"></i> Home</a>
         <h1>Inloggen</h1>
+        
+        <?php if (!empty($registerSuccessMessage)): ?>
+            <p class="success-message"><?= htmlspecialchars($registerSuccessMessage) ?></p>
+        <?php endif; ?>
+
         <form method="POST" action="login.php">
             <input type="text" name="username" placeholder="Gebruikersnaam" required>
             <input type="password" name="password" placeholder="Wachtwoord" required>
