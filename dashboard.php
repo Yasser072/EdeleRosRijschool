@@ -33,7 +33,6 @@ $gebruiker = $stmt->fetch(PDO::FETCH_ASSOC);
             <h2>Jouw Gegevens</h2>
             <p><strong>Naam:</strong> <?php echo htmlspecialchars($gebruiker['username']); ?></p>
             <p><strong>E-mail:</strong> <?php echo htmlspecialchars($gebruiker['email']); ?></p>
-            <a href="update_profile.php" class="button">Gegevens Bijwerken</a>
         </section>
 
         <!-- Geplande Lessen -->
@@ -49,10 +48,20 @@ $gebruiker = $stmt->fetch(PDO::FETCH_ASSOC);
                 </thead>
                 <tbody>
                 <?php
-                // Haal geplande lessen op
-                $sql = "SELECT * FROM lessen WHERE instructeur_id = ?"; // Dit moet worden aangepast als je lessen wilt ophalen voor leerlingen
-                $stmt = $db->prepare($sql);
-                $stmt->execute([$user_id]);
+                // Haal geplande lessen op voor de leerling
+                if ($gebruiker['role'] === 'leerling') {
+                    $sql = "
+                        SELECT lessen.* 
+                        FROM lessen 
+                        JOIN les_leerlingen ON lessen.id = les_leerlingen.les_id 
+                        WHERE les_leerlingen.leerling_id = ?";
+                    $stmt = $db->prepare($sql);
+                    $stmt->execute([$user_id]); // Gebruik de ID van de ingelogde leerling
+                } elseif ($gebruiker['role'] === 'docent') {
+                    $sql = "SELECT * FROM lessen WHERE instructeur_id = ?";
+                    $stmt = $db->prepare($sql);
+                    $stmt->execute([$user_id]); // Gebruik de ID van de ingelogde docent
+                }
 
                 if ($stmt->rowCount() > 0) {
                     while ($les = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -66,6 +75,35 @@ $gebruiker = $stmt->fetch(PDO::FETCH_ASSOC);
             </table>
         </section>
 
+        <!-- Notificaties -->
+        <section class="notificaties">
+            <h2>Notificaties</h2>
+            <?php
+            // Haal notificaties op
+                $sql = "SELECT * FROM notificaties WHERE user_id = ? AND is_read = 0 ORDER BY created_at DESC";
+                $stmt = $db->prepare($sql);
+                $stmt->execute([$user_id]);
+                $notificaties = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                if (!empty($notificaties)) {
+                    echo "<div class='notifications'>";
+                    foreach ($notificaties as $notificatie) {
+                        echo "<div class='notification'>";
+                        echo "<p>" . htmlspecialchars($notificatie['message']) . "</p>";
+                        // Klein kruisje om notificatie als gelezen te markeren
+                        echo "<form method='POST' action='gelezen.php' class='close-notification' style='display:inline;'>";
+                        echo "<input type='hidden' name='notification_id' value='" . $notificatie['id'] . "'>";
+                        echo "<button type='submit' class='close-button'>&times;</button>"; // Het kruisje
+                        echo "</form>";
+                        echo "</div>";
+                    }
+                    echo "</div>";
+                }
+
+
+            ?>
+        </section>
+
         <?php if ($gebruiker['role'] === 'docent'): // Alleen docenten kunnen lessen aanmaken en beheren ?>
             <a href="make_lesson.php" class="manage-lessons-button">Les aanmaken</a>
             <a href="manage_lessons.php" class="manage-lessons-button">Lessen overzicht</a>
@@ -74,9 +112,12 @@ $gebruiker = $stmt->fetch(PDO::FETCH_ASSOC);
         <a href="index.php" class="home-button"><i class="fas fa-home"></i>Uitloggen</a>
 
         <?php if ($gebruiker['role'] === 'leerling'): // Alleen leerlingen kunnen les overzicht leerling zien ?>
-        <a href="view_lessons.php" class="manage-lessons-button">Les overzicht leerling</a>
+            <a href="view_lessons.php" class="manage-lessons-button">Les overzicht leerling</a>
         <?php endif; ?>
 
+        <?php if ($gebruiker['role'] === 'leerling' || $gebruiker['role'] === 'docent'): ?>
+            <a href="ziekmelden.php" class="manage-lessons-button">Ziekmelden</a>
+        <?php endif; ?>
     </div>
 </body>
 </html>
